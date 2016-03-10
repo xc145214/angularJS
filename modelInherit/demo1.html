@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>视图继承</title>
+    <link rel="stylesheet" href="../css/bootstrap.css">
+    <script src="../angular/angular.js"></script>
+</head>
+<body ng-app="test">
+<div class="container">
+    <h2 class="page-header">ng-controller继承</h2>
+    <div ng-controller="OuterCtrl">
+        <span ng-bind="a"></span>
+        <div ng-controller="InnerCtrl">
+            <span ng-bind="a"></span>
+            <span ng-bind="b"></span>
+            <button ng-click="increasea()">increase inner a</button>
+            <button ng-click="increaseOutera()">increase outer a</button>
+        </div>
+    </div>
+    <h2 class="page-header">ng-repeat 循环继承</h2>
+    <div ng-controller="ListCtrl">
+        <ul>
+            <li ng-repeat="member in members">{{member.name}} in {{teamname}}</li>
+        </ul>
+    </div>
+    <h2 class="page-header">ng-repeat 循环继承</h2>
+
+    <div ng-controller="TestCtrl1">
+        <div ng-repeat="boy in boys">
+            <span style="color:red" ng-bind="boy.name"></span>
+            <span style="color:green" ng-bind="boy.age"></span>
+            <button ng-click="boy.growUP()">grow up</button>
+        </div>
+    </div>
+
+    <h2 class="page-header">ng-include 继承</h2>
+
+    <div ng-controller="OuterCtrl">
+        <span ng-bind="name"></span>
+        <div ng-include="'inner.html'"></div>
+    </div>
+
+    <h2 class="page-header">controller 复用</h2>
+    <div ng-include="'1.html'"></div>
+    <div ng-include="'2.html'"></div>
+    <div ng-include="'3.html'"></div>
+</div>
+<script>
+    var app = angular.module("test", []);
+
+    app.controller("OuterCtrl", function ($scope) {
+        $scope.a = 1;
+        $scope.name = "outer name";
+    });
+
+    app.controller("InnerCtrl", function ($scope) {
+        $scope.b = 100;
+
+        $scope.increasea = function () {
+            $scope.a++;
+        };
+
+        $scope.increaseOutera = function () {
+            $scope.$parent.a++;
+        }
+    });
+
+    app.controller("ListCtrl", function ($scope) {
+        $scope.teamname = "Disney";
+
+        $scope.members = [
+            {name: "Tom Cat"},
+            {name: "Jerry Mouse"},
+            {name: "Donald Duck"},
+            {name: "Micky Mouse"}
+        ];
+    });
+
+    app.controller("TestCtrl1", function ($scope) {
+        $scope.boys = [
+            {
+                name: "Tom",
+                age: 5,
+                growUP: function () {
+                    this.age++;
+                }
+            }, {
+                name: "Jerry",
+                age: 2,
+                growUP: function () {
+                    this.age++;
+                }
+            }
+        ]
+    });
+
+    app.controller("TestCtrl", function ($scope) {
+        $scope.counter = 0;
+
+        $scope.increase = function () {
+            $scope.counter++;
+        };
+
+        $scope.decrease = function () {
+            $scope.counter--;
+        };
+    })
+
+
+</script>
+</body>
+</html>

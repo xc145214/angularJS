@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="../css/bootstrap.css">
+    <script src="../angular/angular.js"></script>
+</head>
+<body ng-app="test">
+
+<div class="container">
+    <div ng-controller="OuterCtrl">
+        <div ng-controller="InnerCtrl">
+            <button increaseb>increase b</button>
+            <span ng-bind="b"></span>
+        </div>
+        <button increasea>increase a</button>
+        <span ng-bind="a"></span>
+    </div>
+</div>
+
+<script>
+    var app = angular.module("test", []);
+
+    app.directive("increasea", function() {
+        return function (scope, element, attr) {
+            element.on("click", function() {
+                scope.a++;
+                scope.$digest();
+            });
+        };
+    });
+
+    app.directive("increaseb", function() {
+        return function (scope, element, attr) {
+            element.on("click", function() {
+                scope.b++;
+//                scope.$digest();
+                scope.$apply();    //这个换成$apply即可
+            });
+        };
+    });
+
+    app.controller("OuterCtrl", ["$scope", function($scope) {
+        $scope.a = 1;
+
+        $scope.$watch("a", function(newVal) {
+            console.log("a:" + newVal);
+        });
+
+        $scope.$on("test", function(evt) {
+            $scope.a++;
+            console.log("b ++ make a ="+ $scope.a);
+        });
+    }]);
+
+    app.controller("InnerCtrl", ["$scope", function($scope) {
+        $scope.b = 2;
+
+        $scope.$watch("b", function(newVal) {
+            console.log("b:" + newVal);
+            $scope.$emit("test", newVal);
+        });
+    }]);
+</script>
+</body>
+</html>

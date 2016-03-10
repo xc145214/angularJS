@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="../css/bootstrap.css">
+    <script src="../angular/angular.js"></script>
+</head>
+<body ng-app="test">
+
+<div class="container">
+    <div ng-controller="TestCtrl">
+        <table class="table">
+            <caption>{{numOfCheckedItems}}</caption>
+            <tr ng-repeat="item in list">
+                <td ng-show="item.checked">{{item.index}}</td>
+                <td>
+                    <button class="btn" ng-click="toggleChecked(item.checked)"> toggleChecked</button>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+<script>
+    var app = angular.module("test", []);
+    
+    app.controller("TestCtrl", function ($scope) {
+        $scope.numOfCheckedItems = 0;
+
+        var list = [];
+
+        for (var i=0; i<100; i++) {
+            list.push({
+                index: i,
+                checked: false
+            });
+        }
+
+        $scope.list = list;
+
+        $scope.toggleChecked = function(flag) {
+            for (var i=0; i<list.length; i++) {
+                list[i].checked = !flag;
+                $scope.numOfCheckedItems++;
+            }
+        };
+    })
+
+</script>
+</body>
+</html>

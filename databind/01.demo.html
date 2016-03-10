@@ -16,6 +16,7 @@
         <span ng-bind="counter"></span>
     </div>
 
+
 </div>
 
 
@@ -29,8 +30,12 @@
                 return function (scope, element, attr) {
                     element.on("click", function () {
                         scope.counter++;
-//                        scope.$apply();//强制更新到界面
-                        scope.$digest();
+                        //启动脏检查
+//                        scope.$digest();
+//                        scope.$apply();
+                        scope.$apply(function () {
+                            scope.counter++;
+                        })
                     })
                 }
             })
