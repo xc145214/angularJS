@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="images/favicon.ico">
+
+    <title>BootStrap</title>
+
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <style type="text/css">
+        .demo1 {
+            margin-top: 80px;
+        }
+    </style>
+</head>
+<body ng-app="myModule">
+
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                    aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">BootStrap
+            </a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="#">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </div>
+        <!--/.nav-collapse -->
+    </div>
+</nav>
+
+<div class="container">
+
+    <div class="demo1">
+
+        <h4>自定义标签</h4>
+        <hello></hello>
+        <world></world>
+    </div>
+
+    <div class="footer_nav_box">
+        <div class="footer_nav">
+            <dl>
+                <dt><a ui-sref="foreground.service.service1" class="write">资金服务</a></dt>
+
+                <dd><a ui-sref="foreground.service.service1_1">信用证服务</a></dd>
+
+                <dd><a ui-sref="foreground.service.service1_2">买断信用证</a></dd>
+
+                <dd><a ui-sref="foreground.service.service1_3">赊销服务</a></dd>
+
+                <dd><a ui-sref="foreground.service.service1_4">远期外汇保值</a></dd>
+
+                <dd><a ui-sref="foreground.service.service1_5">代办退税</a></dd>
+
+                <dd><a ui-sref="foreground.service.service1_6">代垫税款</a></dd>
+
+                <dd><a ui-sref="foreground.service.service1_7">外汇结算</a></dd>
+
+            </dl>
+            <dl>
+                <dt><a ui-sref="foreground.service.service2" class="write">通关服务</a></dt>
+
+                <dd><a ui-sref="foreground.service.service2_1">进出口报关</a></dd>
+
+                <dd><a ui-sref="foreground.service.service2_2">代办批文</a></dd>
+
+                <dd><a ui-sref="foreground.service.service2_3">代办商检/查检</a></dd>
+
+                <dd><a ui-sref="foreground.service.service2_4">代收付货款</a></dd>
+
+            </dl>
+            <dl>
+                <dt><a ui-sref="foreground.service.service3" class="write">物流配送</a></dt>
+
+                <dd><a ui-sref="foreground.service.service3_1">深港拖车</a></dd>
+
+                <dd><a ui-sref="foreground.service.service3_2">国内物流</a></dd>
+
+                <dd><a ui-sref="foreground.service.service3_3">国际物流</a></dd>
+
+                <dd><a ui-sref="foreground.service.service3_4">送货上门</a></dd>
+
+            </dl>
+            <dl>
+                <dt><a ui-sref="foreground.support.support1" class="write">常用查询</a></dt>
+
+                <dd><a ui-sref="foreground.support.support1_1"target="_blank">海关编码查询</a></dd>
+
+                <dd><a ui-sref="foreground.support.support1_2" >汇率查询</a></dd>
+
+                <dd><a ui-sref="foreground.support.support1_3">舱单查询</a></dd>
+
+                <dd><a ui-sref="foreground.support.support1_4">通关状态查询</a></dd>
+
+                <dd><a ui-sref="foreground.support.support1_5" target="_blank">退税率查询</a></dd>
+
+
+            </dl>
+            <dl>
+                <dt><a ui-sref="foreground.support.support2" class="write">贸易助手</a></dt>
+
+                <dd><a ui-sref="foreground.support.support2_1" >OB/CIF/CFR 计算</a></dd>
+
+                <dd><a ui-sref="foreground.support.support2_2">世界货币名称</a></dd>
+
+                <dd><a ui-sref="foreground.support.support2_3">港口查询</a></dd>
+
+                <dd><a ui-sref="foreground.support.support2_4">世界50大银行</a></dd>
+
+                <dd><a ui-sref="foreground.support.support2_5">单位换算</a></dd>
+
+                <dd><a ui-sref="foreground.support.support2_6">世界空港</a></dd>
+
+                <dd><a ui-sref="foreground.support.support2_7">车站代码</a></dd>
+
+                <dd><a ui-sref="foreground.support.support2_8">报关流程</a></dd>
+
+            </dl>
+            <dl>
+                <dt><a ui-sref="" class="write">关于润泰</a></dt>
+
+                <dd><a ui-sref="" >润泰简介</a></dd>
+
+                <dd><a ui-sref="">润泰架构</a></dd>
+
+                <dd><a ui-sref="">润泰文化</a></dd>
+
+                <dd><a ui-sref="">润泰风采</a></dd>
+
+
+
+            </dl>
+        </div>
+    </div>
+
+</div>
+<style>
+    a.write {
+        font-size: 14px;
+        font-weight: bold;
+        line-height: 30px;
+        color:lightskyblue;
+    }
+
+    .footer_nav_box {
+        width: 100%;
+        min-width: 1000px;
+        _width: expression((documentElement.clientWidth < 1000) ? "1000px" : "auto" );
+        margin: 0 auto;
+        overflow: hidden;
+        background: url(images/bottom_nav.gif) repeat left top;
+        padding-top: 15px;
+    }
+
+    .footer_nav dl dt {
+        padding: 10px;
+        margin: 0px;
+    }
+
+    .footer_nav dd {
+        width: 100%;
+        height: 22px;
+        line-height: 22px;
+        float: left;
+        overflow: hidden;
+        color: white;
+    }
+
+    .footer_nav dl {
+        width: 150px;
+        float: left;
+        overflow: hidden;
+        display: inline;
+        margin-left: 15px;
+    }
+
+    .footer_nav {
+        width: 1000px;
+        margin: 0px auto 0px auto;
+        overflow: hidden;
+        padding-bottom: 20px;
+    }
+
+    dd a {
+        color:white;
+    }
+
+</style>
+
+
+</div>
+
+
+<script src="angular/angular.js"></script>
+<script src="angular/helloworld_directive.js"></script>
+
+<!-- Bootstrap core JavaScript
+   ================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="js/jquery-2.1.3.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <!-- CSS -->
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <!-- JS -->
+    <!-- load angular, nganimate, and ui-router -->
+    <script src="../angular/angular.js"></script>
+
+</head>
+<style>
+    div[ng-controller] {
+        margin-bottom: 1em;
+        -webkit-border-radius: 4px;
+        border-radius: 4px;
+        border: 1px solid;
+        padding: .5em;
+    }
+
+    div[ng-controller^=Good] {
+        border-color: #d6e9c6;
+        background-color: #dff0d8;
+        color: #3c763d;
+    }
+
+    div[ng-controller^=Bad] {
+        border-color: #ebccd1;
+        background-color: #f2dede;
+        color: #a94442;
+        margin-bottom: 0;
+    }
+
+    .strike {
+        text-decoration: line-through;
+    }
+
+    .bold {
+        font-weight: bold;
+    }
+
+    .red {
+        color: red;
+    }
+
+    .base-class {
+        -webkit-transition: all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.5s;
+        transition: all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.5s;
+    }
+
+    .base-class.my-class {
+        color: red;
+        font-size: 3em;
+    }
+
+    .odd {
+        color: red;
+    }
+
+    .even {
+        color: blue;
+    }
+</style>
+
+<!-- apply our angular app -->
+<body>
+
+<div class="container">
+    <!-- 严格语法 ng-strict-di : 使用显式注入-->
+    <div ng-app="Demo" ng-strict-di>
+
+        <!--ngController-->
+        <h1 class="page-header">ngController as</h1>
+
+        <div id="ctrl-as-exmpl" ng-controller="SettingsController1 as settings">
+            Name: <input type="text" ng-model="settings.name"/>
+            [ <a href="" ng-click="settings.greet()">greet</a> ]<br/>
+            Contact:
+            <ul>
+                <li ng-repeat="contact in settings.contacts">
+                    <select ng-model="contact.type">
+                        <option>phone</option>
+                        <option>email</option>
+                    </select>
+                    <input type="text" ng-model="contact.value"/>
+                    [ <a href="" ng-click="settings.clearContact(contact)">clear</a>
+                    | <a href="" ng-click="settings.removeContact(contact)">X</a> ]
+                </li>
+                <li>[ <a href="" ng-click="settings.addContact()">add</a> ]</li>
+            </ul>
+        </div>
+
+        <!--ngController-->
+        <h1 class="page-header">ngController</h1>
+
+        <div id="ctrl-exmpl" ng-controller="SettingsController2">
+            Name: <input type="text" ng-model="name"/>
+            [ <a href="" ng-click="greet()">greet</a> ]<br/>
+            Contact:
+            <ul>
+                <li ng-repeat="contact in contacts">
+                    <select ng-model="contact.type">
+                        <option>phone</option>
+                        <option>email</option>
+                    </select>
+                    <input type="text" ng-model="contact.value"/>
+                    [ <a href="" ng-click="clearContact(contact)">clear</a>
+                    | <a href="" ng-click="removeContact(contact)">X</a> ]
+                </li>
+                <li>[ <a href="" ng-click="addContact()">add</a> ]</li>
+            </ul>
+        </div>
+
+    </div>
+
+    <script>
+
+        var Demo = angular.module('Demo', []);
+
+        Demo.controller('SettingsController1', SettingsController1);
+
+        function SettingsController1() {
+            this.name = "John Smith";
+            this.contacts = [
+                {type: 'phone', value: '408 555 1212'},
+                {type: 'email', value: 'john.smith@example.org'}];
+        }
+
+
+        SettingsController1.prototype.greet = function () {
+            alert(this.name);
+        }
+        SettingsController1.prototype.addContact = function () {
+            this.contacts.push({type: 'email', value: 'yourname@example.org'});
+        }
+
+        SettingsController1.prototype.removeContact = function (contactToRemove) {
+            var index = this.contacts.indexOf(contactToRemove);
+            this.contacts.splice(index, 1);
+        }
+
+        SettingsController1.prototype.clearContact = function (contact) {
+            contact.type = 'phone';
+            contact.value = '';
+        }
+        //注入
+        // SettingsController1.$inject = ['$scope'];
+        Demo.controller('SettingsController2', ['$scope', SettingsController2]);
+        function SettingsController2($scope) {
+            $scope.name = "John Smith";
+            $scope.contacts = [
+                {type: 'phone', value: '408 555 1212'},
+                {type: 'email', value: 'john.smith@example.org'}];
+
+            $scope.greet = function () {
+                alert($scope.name);
+            };
+
+            $scope.addContact = function () {
+                $scope.contacts.push({type: 'email', value: 'yourname@example.org'});
+            };
+
+            $scope.removeContact = function (contactToRemove) {
+                var index = $scope.contacts.indexOf(contactToRemove);
+                $scope.contacts.splice(index, 1);
+            };
+
+            $scope.clearContact = function (contact) {
+                contact.type = 'phone';
+                contact.value = '';
+            };
+        }
+
+    </script>
+</div>
+
+</body>
+</html>

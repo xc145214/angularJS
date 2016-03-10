@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>data bind </title>
+    <link rel="stylesheet" href="../css/bootstrap.css">
+    <script src="../angular/angular.js"></script>
+
+</head>
+<body ng-app="app">
+<div class="container">
+
+    <h2 class="page-header"> demo1</h2>
+    <div ng-controller="CounterCtrl1">
+        <button my-click>increase</button>
+        <span ng-bind="counter"></span>
+    </div>
+
+</div>
+
+
+<script>
+    angular
+            .module("app", [])
+            .controller("CounterCtrl1", function ($scope) {
+                $scope.counter = 1;
+            })
+            .directive("myClick", function () {
+                return function (scope, element, attr) {
+                    element.on("click", function () {
+                        scope.counter++;
+//                        scope.$apply();//强制更新到界面
+                        scope.$digest();
+                    })
+                }
+            })
+</script>
+</body>
+</html>

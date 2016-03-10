@@ -1,0 +1,115 @@
+<!doctype html>
+<html ng-app="myApp">
+<head>
+    <title>ui-router</title>
+    <link href="../../css/bootstrap.min.css" rel="stylesheet">
+
+    <script src="../../angular/angular.js"></script>
+    <!-- Include the ui-router script -->
+    <script src="../../js/angular-ui-router.min.js"></script>
+    <script src="../../js/angular-animate.min.js"></script>
+
+    <style>
+        .red {
+            background-color: red;
+        }
+
+        .green {
+            background-color: green;
+        }
+
+        .blue {
+            background-color: blue;
+        }
+    </style>
+
+</head>
+<body>
+<div class="container">
+    <h3 class="page-header">ui router</h3>
+
+    <div ui-view></div>
+    <!-- Below are the templates that get cached since we can't have external templates with JSFiddle -->
+
+    <!-- CACHE FILE: list.html -->
+    <script type="text/ng-template" id="content.html">
+        <div class="row">
+            <h3>This is the header</h3>
+        </div>
+        <div class="row">
+            <div class="small-4 columns" ng-controller="SidebarCtrl">
+                <ul>
+                    <li ng-repeat="page in content"><a ng-click="setPage(page)">goto {{page}}</a></li>
+                </ul>
+            </div>
+            <div class="small-8 columns content">
+                <div ui-view></div>
+            </div>
+        </div>
+    </script>
+    <!-- CACHE FILE: list.html -->
+    <script type="text/ng-template" id="content.red.html">
+        <div class="row red">
+            red
+        </div>
+    </script>
+    <!-- CACHE FILE: list.html -->
+    <script type="text/ng-template" id="content.blue.html">
+        <div class="row blue">
+            blue
+        </div>
+    </script>
+    <!-- CACHE FILE: list.html -->
+    <script type="text/ng-template" id="content.green.html">
+        <div class="row green">
+            green
+        </div>
+    </script>
+
+</div>
+<!-- app script-->
+<script>
+    var myApp = angular.module('myApp', ['ui.router']);
+    myApp.config(['$stateProvider', function ($stateProvider) {
+
+        var home = {
+                    name: 'home',
+                    url: '/',
+                    templateUrl: 'content.html'
+                },
+                red = {
+                    name: 'red',
+                    url: '/red',
+                    parent: home,
+                    templateUrl: 'content.red.html'
+                },
+                blue = {
+                    name: 'blue',
+                    url: '/blue',
+                    parent: home,
+                    templateUrl: 'content.blue.html'
+                },
+                green = {
+                    name: 'green',
+                    url: '/green',
+                    parent: home,
+                    templateUrl: 'content.green.html'
+                };
+
+        $stateProvider.state(home);
+        $stateProvider.state(red);
+        $stateProvider.state(green);
+        $stateProvider.state(blue);
+    }]).run(['$state', function ($state) {
+        $state.transitionTo('home');
+    }]).controller("SidebarCtrl", function ($scope, $state) {
+        $scope.content = ['red', 'green', 'blue'];
+
+        $scope.setPage = function (page) {
+            $state.transitionTo(page);
+        };
+
+    });
+</script>
+</body>
+</html>

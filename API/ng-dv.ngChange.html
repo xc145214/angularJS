@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <!-- CSS -->
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <!-- JS -->
+    <!-- load angular, nganimate, and ui-router -->
+    <script src="../angular/angular.js"></script>
+
+</head>
+<style>
+    div[ng-controller] {
+        margin-bottom: 1em;
+        -webkit-border-radius: 4px;
+        border-radius: 4px;
+        border: 1px solid;
+        padding: .5em;
+    }
+
+    div[ng-controller^=Good] {
+        border-color: #d6e9c6;
+        background-color: #dff0d8;
+        color: #3c763d;
+    }
+
+    div[ng-controller^=Bad] {
+        border-color: #ebccd1;
+        background-color: #f2dede;
+        color: #a94442;
+        margin-bottom: 0;
+    }
+
+    .strike {
+        text-decoration: line-through;
+    }
+
+    .bold {
+        font-weight: bold;
+    }
+
+    .red {
+        color: red;
+    }
+
+    .base-class {
+        -webkit-transition: all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.5s;
+        transition: all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.5s;
+    }
+
+    .base-class.my-class {
+        color: red;
+        font-size: 3em;
+    }
+    .odd {
+        color: red;
+    }
+    .even {
+        color: blue;
+    }
+</style>
+
+<!-- apply our angular app -->
+<body>
+
+<div class="container">
+    <!-- 严格语法 ng-strict-di : 使用显式注入-->
+    <div ng-app="Demo" ng-strict-di>
+
+        <!--ngChange-->
+        <h1 class="page-header">ngChange</h1>
+
+        <div ng-controller="ExampleController1">
+            <input type="checkbox" ng-model="confirmed" ng-change="change()" id="ng-change-example1"/>
+            <input type="checkbox" ng-model="confirmed" id="ng-change-example2"/>
+            <label for="ng-change-example2">Confirmed</label><br/>
+            <tt>debug = {{confirmed}}</tt><br/>
+            <tt>counter = {{counter}}</tt><br/>
+        </div>
+        <!--ngChecked-->
+        <h1 class="page-header">ngChecked</h1>
+        Check me to check both: <input type="checkbox" ng-model="master"><br/>
+        <input id="checkSlave" type="checkbox" ng-checked="master">
+
+        <!--ngClass-->
+        <h1 class="page-header">ngClass</h1>
+
+        <p ng-class="{strike: deleted, bold: important, red: error}">Map Syntax Example</p>
+        <input type="checkbox" ng-model="deleted"> deleted (apply "strike" class)<br>
+        <input type="checkbox" ng-model="important"> important (apply "bold" class)<br>
+        <input type="checkbox" ng-model="error"> error (apply "red" class)
+        <hr>
+        <p ng-class="style">Using String Syntax</p>
+        <input type="text" ng-model="style" placeholder="Type: bold strike red">
+        <hr>
+        <p ng-class="[style1, style2, style3]">Using Array Syntax</p>
+        <input ng-model="style1" placeholder="Type: bold, strike or red"><br>
+        <input ng-model="style2" placeholder="Type: bold, strike or red"><br>
+        <input ng-model="style3" placeholder="Type: bold, strike or red"><br>
+        <!--ngClass in animotins-->
+        <h1 class="page-header">ngClass in animotins</h1>
+
+        <input id="setbtn" type="button" value="set" ng-click="myVar='my-class'">
+        <input id="clearbtn" type="button" value="clear" ng-click="myVar=''">
+        <br>
+        <span class="base-class" ng-class="myVar">Sample Text</span>
+
+        <!--ngClassEven-->
+        <h1 class="page-header">ngClassEven</h1>
+
+        <ol ng-init="names=['John', 'Mary', 'Cate', 'Suz']">
+            <li ng-repeat="name in names">
+   <span ng-class-odd="'odd'" ng-class-even="'even'">
+     {{name}} &nbsp; &nbsp; &nbsp;
+   </span>
+            </li>
+        </ol>
+
+        <!--ngChoak-->
+        <h1 class="page-header">ngChoak</h1>
+        <div id="template1" ng-cloak>{{ 'hello' }}</div>
+        <div id="template2" ng-cloak class="ng-cloak">{{ 'hello IE7' }}</div>
+    </div>
+
+    <script>
+
+        var Demo = angular.module('Demo', []);
+
+        Demo.controller('ExampleController1', ExampleController1);
+
+        function ExampleController1($scope) {
+            $scope.counter = 0;
+            $scope.change = function () {
+                $scope.counter++;
+            };
+        }
+        //注入
+        ExampleController1.$inject = ['$scope'];
+
+
+    </script>
+</div>
+
+</body>
+</html>

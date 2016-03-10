@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>greeting</title>
+    <link rel="stylesheet" href="../css/bootstrap.min.css"/>
+    <script type="text/javascript" src="../angular/angular.js"></script>
+    <style>
+        div.spicy div {
+            padding: 10px;
+            border: solid 2px blue;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div ng-app="myApp">
+        <h3 class="page-header">greeting</h3>
+        <div ng-controller="GreetingController">
+            {{ greeting }}
+        </div>
+
+        <h3 class="page-header">double</h3>
+        <div ng-controller="DoubleController">
+            Two times <input ng-model="num"> equals {{ double(num) }}
+        </div>
+
+        <h3 class="page-header">spicy</h3>
+        <div ng-controller="SpicyController">
+            <button ng-click="chiliSpicy()">Chili</button>
+            <button ng-click="jalapenoSpicy()">Jalapeño</button>
+            <p>The food is {{spice}} spicy!</p>
+        </div>
+
+        <h3 class="page-header">Spicy Arguments Example</h3>
+        <div ng-controller="SpicyController1">
+            <input ng-model="customSpice">
+            <button ng-click="spicy('chili')">Chili</button>
+            <button ng-click="spicy(customSpice)">Custom spice</button>
+            <p>The food is {{spice}} spicy!</p>
+        </div>
+
+        <h3 class="page-header">Scope Inheritance Example</h3>
+        <div class="spicy">
+            <div ng-controller="MainController">
+                <p>Good {{timeOfDay}}, {{name}}!</p>
+
+                <div ng-controller="ChildController">
+                    <p>Good {{timeOfDay}}, {{name}}!</p>
+
+                    <div ng-controller="GrandChildController">
+                        <p>Good {{timeOfDay}}, {{name}}!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var myApp = angular.module('myApp',[]);
+
+    myApp.controller('GreetingController', ['$scope', function($scope) {
+        $scope.greeting = 'Hola!';
+    }]).controller('DoubleController',['$scope',function($scope){
+        $scope.num = 0;
+        $scope.double = function(value){
+            return value*2
+        }
+    }]).controller('SpicyController',['$scope', function($scope) {
+        $scope.spice = 'very';
+        $scope.chiliSpicy = function(){
+            $scope.spice = 'Chili';
+        };
+        $scope.jalapenoSpicy = function(){
+            $scope.spice = 'Jalapeño';
+        };
+    }]).controller('SpicyController1',['$scope', function($scope) {
+        $scope.customSpice = "wasabi";
+        $scope.spice = 'very';
+        $scope.spicy = function(spice){
+            $scope.spice = spice;
+        };
+    }]).controller('MainController',function($scope){
+        $scope.timeOfDay = 'morning';
+        $scope.name = 'Nikki';
+    }).controller('ChildController',function($scope){
+        $scope.timeOfDay = 'morning';
+        $scope.name = 'Mattie';
+    }).controller('GrandChildController',function($scope){
+        $scope.timeOfDay = 'evening';
+        $scope.name = 'Gingerbread ';
+    });
+</script>
+<script type="text/javascript" src="../js/bootstrap.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <!-- CSS -->
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <!-- JS -->
+    <!-- load angular, nganimate, and ui-router -->
+    <script src="../angular/angular.js"></script>
+
+</head>
+<style>
+    div[ng-controller] {
+        margin-bottom: 1em;
+        -webkit-border-radius: 4px;
+        border-radius: 4px;
+        border: 1px solid;
+        padding: .5em;
+    }
+
+    div[ng-controller^=Good] {
+        border-color: #d6e9c6;
+        background-color: #dff0d8;
+        color: #3c763d;
+    }
+
+    div[ng-controller^=Bad] {
+        border-color: #ebccd1;
+        background-color: #f2dede;
+        color: #a94442;
+        margin-bottom: 0;
+    }
+    .slide-animate-container {
+        position:relative;
+        background:white;
+        border:1px solid black;
+        height:40px;
+        overflow:hidden;
+    }
+
+    .slide-animate {
+        padding:10px;
+    }
+
+    .slide-animate.ng-enter, .slide-animate.ng-leave {
+        -webkit-transition:all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.5s;
+        transition:all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.5s;
+
+        position:absolute;
+        top:0;
+        left:0;
+        right:0;
+        bottom:0;
+        display:block;
+        padding:10px;
+    }
+
+    .slide-animate.ng-enter {
+        top:-50px;
+    }
+    .slide-animate.ng-enter.ng-enter-active {
+        top:0;
+    }
+
+    .slide-animate.ng-leave {
+        top:0;
+    }
+    .slide-animate.ng-leave.ng-leave-active {
+        top:50px;
+    }
+
+</style>
+
+<!-- apply our angular app -->
+<body>
+
+<div class="container">
+    <!-- 严格语法 ng-strict-di : 使用显式注入-->
+    <div ng-app="Demo" ng-strict-di>
+
+        <!--ngInclude-->
+        <h1 class="page-header">ngInclude</h1>
+
+        <div ng-controller="ExampleController">
+            <select ng-model="template" ng-options="t.name for t in templates">
+                <option value="">(blank)</option>
+            </select>
+            url of the template: <tt>{{template.url}}</tt>
+            <hr/>
+            <div class="slide-animate-container">
+                <div class="slide-animate" ng-include="template.url"></div>
+            </div>
+        </div>
+
+        <!--ngInit-->
+        <h1 class="page-header">ngInit</h1>
+        <div ng-controller="ExampleController1">
+            <div ng-repeat="innerList in list" ng-init="outerIndex = $index">
+                <div ng-repeat="value in innerList" ng-init="innerIndex = $index">
+                    <span class="example-init">list[ {{outerIndex}} ][ {{innerIndex}} ] = {{value}};</span>
+                </div>
+            </div>
+        </div>
+
+
+        <!--ngList-->
+        <h1 class="page-header">ngList with Validation</h1>
+        <form name="myForm" ng-controller="ExampleController2">
+            List: <input name="namesInput" ng-model="names" ng-list required>
+  <span class="error" ng-show="myForm.namesInput.$error.required">
+    Required!</span>
+            <br>
+            <tt>names = {{names}}</tt><br/>
+            <tt>myForm.namesInput.$valid = {{myForm.namesInput.$valid}}</tt><br/>
+            <tt>myForm.namesInput.$error = {{myForm.namesInput.$error}}</tt><br/>
+            <tt>myForm.$valid = {{myForm.$valid}}</tt><br/>
+            <tt>myForm.$error.required = {{!!myForm.$error.required}}</tt><br/>
+        </form>
+
+        <!--ngList-->
+        <h1 class="page-header">ngListsplitting on whitespace</h1>
+       <textarea ng-model="list" ng-list="&#10;" ng-trim="false"></textarea>
+        <pre>{{ list | json }}</pre>
+
+    </div>
+
+    <script>
+
+        var Demo = angular.module('Demo', []);
+        Demo.controller('ExampleController', ['$scope', function($scope) {
+            $scope.templates =
+                    [ { name: 'template1.html', url: 'template1.html'},
+                        { name: 'template2.html', url: 'template2.html'} ];
+            $scope.template = $scope.templates[0];
+        }]);
+
+        Demo.controller('ExampleController1', ['$scope', function($scope) {
+            $scope.list = [['a', 'b'], ['c', 'd']];
+        }]);
+
+        Demo.controller('ExampleController2',['$scope', function($scope) {
+            $scope.names = ['morpheus', 'neo', 'trinity'];
+        }]);
+
+    </script>
+</div>
+
+</body>
+</html>

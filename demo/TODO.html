@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<!-- 严格语法 ng-strict-di : 使用显式注入-->
+<html ng-app="todoApp" ng-strict-di>
+<head lang="en">
+    <meta charset="utf-8">
+    <!-- CSS -->
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../UI-route/style.css">
+
+    <!-- JS -->
+    <script src="../angular/angular.js"></script>
+    <style>
+        div[ng-controller] {
+            margin-bottom: 1em;
+            -webkit-border-radius: 4px;
+            border-radius: 4px;
+            border: 1px solid;
+            padding: .5em;
+        }
+
+        div[ng-controller^=Good] {
+            border-color: #d6e9c6;
+            background-color: #dff0d8;
+            color: #3c763d;
+        }
+
+        div[ng-controller^=Bad] {
+            border-color: #ebccd1;
+            background-color: #f2dede;
+            color: #a94442;
+            margin-bottom: 0;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div>
+        <h2 class="page-header">Todo</h2>
+
+        <div ng-controller="TodoListController as todoList">
+            <span>{{todoList.remaining()}} of {{todoList.todos.length}} remaining</span>
+            [ <a href="" ng-click="todoList.archive()">archive</a> ]
+            <ul class="unstyled">
+                <li ng-repeat="todo in todoList.todos">
+                    <input type="checkbox" ng-model="todo.done">
+                    <span class="done-{{todo.done}}">{{todo.text}}</span>
+                </li>
+            </ul>
+            <form ng-submit="todoList.addTodo()">
+                <input type="text" ng-model="todoList.todoText" size="30"
+                       placeholder="add new todo here">
+                <input class="btn-primary" type="submit" value="add">
+            </form>
+        </div>
+    </div>
+
+    <script>
+        angular.module('todoApp', [])
+                .controller('TodoListController', function () {
+                    var todoList = this;
+                    todoList.todos = [
+                        {text:'learn angular',done:true},
+                        {text:'build a angular app',done:false}
+                    ];
+                    todoList.addTodo = function(){
+                        todoList.todos.push({text:todoList.todoText,done:false});
+                        todoList.todoText = '';
+                    };
+
+                    todoList.archive = function(){
+                        var oldTods = todoList.todos;
+                        todoList.todos = [];
+                        angular.forEach(oldTods,function(todo){
+                            if(!todo.done) todoList.todos.push(todo);
+                        });
+                    };
+                    //余下的
+                    todoList.remaining = function(){
+                        var count = 0;
+                        angular.forEach(todoList.todos,function(todo){
+                            count += todo.done?0:1;
+
+                        });
+
+                        return count;
+                    };
+
+                })
+    </script>
+</div>
+
+</body>
+</html>

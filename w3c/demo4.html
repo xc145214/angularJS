@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="zh-CN" >
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../images/favicon.ico">
+
+    <title>demo1</title>
+
+
+
+
+</head>
+<body >
+
+
+
+<div class="container">
+
+    ng-init:字符串初始化
+
+    <div ng-app="" ng-init="firstName='john';lastName='Doe'">
+        <p>name :{{ firstName + ' ' + lastName}}</p>
+        <p>name :<span ng-bind="firstName + ' ' + lastName"></span></p>
+    </div>
+
+
+</div>
+
+
+
+<script src="../angular/angular.js"></script>
+
+
+<!-- Bootstrap core JavaScript
+   ================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="../js/jquery-2.1.3.min.js"></script>
+
+
+</body>
+</html>

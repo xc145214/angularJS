@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>greeting</title>
+    <link rel="stylesheet" href="../css/bootstrap.min.css"/>
+    <script type="text/javascript" src="../angular/angular.js"></script>
+    <style>
+
+    </style>
+</head>
+<body>
+<div class="container-fluid">
+    <div ng-app="myApp">
+        <h3 class="page-header">expression </h3>
+
+        <div ng-controller="ExampleController1" class="expressions">
+            Expression:
+            <input type='text' ng-model="expr" size="80"/>
+            <button ng-click="addExp(expr)">Evaluate</button>
+            <ul>
+                <li ng-repeat="expr in exprs track by $index">
+                    [ <a href="" ng-click="removeExp($index)">X</a> ]
+                    <tt>{{expr}}</tt> => <span ng-bind="$parent.$eval(expr)"></span>
+                </li>
+            </ul>
+        </div>
+
+
+        <h3 class="page-header">context </h3>
+
+        <div class="example2" ng-controller="ExampleController2">
+            Name: <input ng-model="name" type="text"/>
+            <button ng-click="greet()">Greet</button>
+            <button ng-click="window.alert('Should not see me')">Won't greet</button>
+        </div>
+
+
+
+        <h3 class="page-header">event </h3>
+        <div ng-controller="EventController1">
+            <button ng-click="clickMe($event)">Event</button>
+            <p><code>$event</code>: <pre> {{$event | json}}</pre></p>
+            <p><code>clickEvent</code>: <pre>{{clickEvent | json}}</pre></p>
+        </div>
+
+
+        <h3 class="page-header">event </h3>
+        <div ng-controller="EventController2">
+            <button ng-click="clickMe($event)">Event</button>
+            <p id="one-time-binding-example">One time binding: {{::name}}</p>
+            <p id="normal-binding-example">normal binding: {{name}}</p>
+        </div>
+
+
+    </div>
+</div>
+
+<script>
+    var myApp = angular.module('myApp', []);
+
+    myApp.controller('ExampleController1', ['$scope', function($scope) {
+        var exprs = $scope.exprs = [];
+        $scope.expr = '3*10|currency';
+        $scope.addExp = function(expr) {
+            exprs.push(expr);
+        };
+
+        $scope.removeExp = function(index) {
+            exprs.splice(index, 1);
+            console.log(index);
+        };
+    }]);
+
+    myApp.controller('ExampleController2',['$scope','$window',function($scope,$window){
+        $scope.name = 'world';
+        $scope.greet = function(){
+            $window.alert('hello '+$scope.name);
+        }
+    }]);
+
+    myApp.controller('EventController1', ['$scope', function($scope) {
+        /*
+         * expose the event object to the scope
+         */
+        $scope.clickMe = function(clickEvent) {
+            $scope.clickEvent = simpleKeys(clickEvent);
+            console.log(clickEvent);
+        };
+
+        /*
+         * return a copy of an object with only non-object keys
+         * we need this to avoid circular references
+         */
+        function simpleKeys (original) {
+            return Object.keys(original).reduce(function (obj, key) {
+                obj[key] = typeof original[key] === 'object' ? '{ ... }' : original[key];
+                return obj;
+            }, {});
+        }
+    }]);
+
+    myApp.controller('EventController2', ['$scope', function($scope) {
+        var count = 0;
+        var names =  ['Igor', 'Misko', 'Chirayu', 'Lucas'];
+        /*
+         * expose the event object to the scope
+         */
+        $scope.clickMe = function(event){
+            $scope.name = names[count % names.length];
+            count ++;
+        };
+    }]);
+
+</script>
+<script type="text/javascript" src="../js/bootstrap.min.js"></script>
+<script type="text/javascript" src="../js/jquery-2.1.3.min.js"></script>
+</body>
+</html>

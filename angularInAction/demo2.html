@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../images/favicon.ico">
+    <title>demo1</title>
+
+    <!--初始化angular-->
+    <script>
+//         angular.bootstrap($document,['app']);
+
+    </script>
+
+</head>
+<body ng-app="app">
+<div class="container">
+    <h2>MainCtrl</h2>
+
+    <div ng-controller="MainCtrl">
+        {{ someValue }}
+    </div>
+
+    <h2>FirstCtrl</h2>
+
+    <div ng-controller="FirstCtrl">
+        <ul>
+            <li ng-repeat="item in items">
+                {{ item.name }}
+            </li>
+        </ul>
+    </div>
+
+    <h2>SecondCtrl</h2>
+
+    <div ng-controller="SecondCtrl as ctrl2">
+        <ul>
+            <li ng-repeat="item in ctrl2.items">
+                {{ item.name }}
+            </li>
+        </ul>
+    </div>
+
+    <h2>ThirdCtrl</h2>
+
+    <div ng-controller="ThirdCtrl">
+        <input ng-model="name">
+        {{ name }}
+    </div>
+
+    <h2>FourCtrl</h2>
+
+    <div ng-controller="FourCtrl">
+        <input ng-model="name">
+        {{ name }}
+    </div>
+
+
+    <h2>FiveCtrl</h2>
+
+    <div ng-controller="FiveCtrl as names">
+        {{ names.items.length }} in storck
+
+        <ul>
+            <li ng-repeat="item in names.items" ng-click="names.removeFromStock(item,$index)">
+                {{item.name}}
+            </li>
+        </ul>
+    </div>
+
+    <h2>SixCtrl</h2>
+
+    <div ng-controller="SixCtrl as names">
+        {{ names.items.length }} in storck
+
+        <ul>
+            <li ng-repeat="item in names.items" ng-click="names.removeFromStock(item,$index)">
+                {{item.name}}
+            </li>
+        </ul>
+    </div>
+</div>
+<script src="../angular/angular.js"></script>
+<script src="app2.js"></script>
+<!-- Bootstrap core JavaScript
+   ================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="../js/jquery-2.1.3.min.js"></script>
+
+
+</body>
+</html>

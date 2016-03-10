@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>service or factory</title>
+    <script src="../angular/angular.js"></script>
+</head>
+<body ng-app="myApp">
+
+<div ng-controller="HelloCtrl">
+    <p>{{fromService}}</p>
+
+    <table>
+        <tr ng-repeat="student in students">
+            <td>{{ $index + 1}}</td>
+            <td>{{ student.name}}</td>
+            <td>{{ student.age}}</td>
+        </tr>
+    </table>
+</div>
+
+
+<div ng-controller="OutCtrl as out">
+    <p>{{out.type}}</p>
+
+    <div ng-controller="InnerCtrl as inner">
+        <p>{{out.type}}</p>
+
+        <p>{{ inner.type}}</p>
+
+        <p>{{ inner.data}}</p>
+
+    </div>
+</div>
+<script>
+    angular.module("myApp", [])
+            .service("myService", myService)
+            .controller("HelloCtrl", HelloCtrl)
+            .controller("OutCtrl", OutCtrl)
+            .controller("InnerCtrl", InnerCtrl);
+
+
+    function myService() {
+        var data = "";
+        this.getData = function (type) {
+            return data + "this is data from service :" + type;
+        }
+        var students = [
+            {
+                name: "lix",
+                age: 12
+            },
+            {
+                name: "lilei",
+                age: 19
+            },
+            {
+                name: "liu",
+                age: 23
+            }
+        ];
+
+        this.getStudetns = function(){
+            return students;
+        }
+    }
+
+    function HelloCtrl($scope, myService) {
+        var type = "type1";
+        $scope.fromService = myService.getData(type);
+
+        $scope.students = myService.getStudetns();
+
+    }
+
+    /***
+     * controller 继承
+     */
+    function OutCtrl() {
+        this.type = "type2";
+    }
+
+    function InnerCtrl() {
+        this.type = "type3";
+        this.data = "data from service by type: ";//+ this.$parent.type;
+    }
+
+
+</script>
+
+
+<script src="../js/jquery-2.1.3.min.js"></script>
+</body>
+</html>

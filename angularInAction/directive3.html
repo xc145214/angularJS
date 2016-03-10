@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>directive</title>
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <script src="../js/jquery-2.1.3.min.js"></script>
+    <script src="../angular/angular.js"></script>
+</head>
+<style>
+    .expander {
+        border: 1px solid black;
+        width: 250px;
+    }
+
+    .expander>.title {
+        background-color: black;
+        color: white;
+        padding: .1em .3em;
+        cursor: pointer;
+    }
+
+    .expander>.body {
+        padding: .1em .3em;
+    }
+</style>
+<body ng-app="app">
+
+<div class="container-fluid">
+    <div>
+        <h3 class="page-header">simple</h3>
+        <hello1></hello1>
+    </div>
+
+    <div>
+        <h3 class="page-header">transclude</h3>
+        <hello2>
+
+            <span>原来的内容，</span>
+            <span>还在这里</span>
+        </hello2>
+        <hello2></hello2>
+    </div>
+
+    <div>
+        <h3 class="page-header">compile和link1</h3>
+
+        <div ng-controller="MyController">
+            <div ng-repeat="thing in things">
+                {{thing}}.
+                <hello3></hello3>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div>
+        <h3 class="page-header">compile和link2</h3>
+
+        <div ng-controller='SomeController'>
+            <expander class='expander' expander-title='title'>
+                {{text}}
+            </expander>
+        </div>
+
+    </div>
+
+    <div>
+        <h3 class="page-header">comprehensive example</h3>
+
+        <div ng-controller='SomeController1'>
+            <accordion>
+                <expander class='expander' ng-repeat='expander in expanders' expander-title='expander.title'>
+                    {{expander.text}}
+                </expander>
+            </accordion>
+        </div>
+
+    </div>
+
+</div>
+<script>
+    var app = angular.module('app', []);
+    app.directive('hello1', function () {
+        return {
+            restrict: 'E',  //E A C M
+            template: '<div>Hi there</div>',
+            replace: true       //替换与否
+        }
+    });
+
+    app.directive('hello2', function () {
+        return {
+            restrict: 'E',
+            template: '<div>Hi there <span ng-transclude></span></div>',
+            transclude: true
+        }
+    });
+
+    app.directive('hello3', function () {
+        return {
+            restrict: 'E',
+            template: '<span>Hi there</span>',
+            replace: true
+        }
+    });
+    app.controller('MyController', function ($scope) {
+        $scope.things = [1, 2, 3, 4, 5, 6];
+    });
+
+
+    app.directive('expander', function () {
+        return {
+            restrict: 'EA',
+            replace: true,
+            transclude: true,
+            scope: {
+                title: '=expanderTitle'
+            },
+            template: '<div>'
+            + '<div class="title" ng-click="toggle()">{{title}}</div>'
+            + '<div class="body" ng-show="showMe" ng-transclude></div>'
+            + '</div>',
+            link: function (scope, element, attrs) {
+                scope.showMe = false;
+                scope.toggle = function toggle() {
+                    scope.showMe = !scope.showMe;
+                }
+            }
+        }
+    });
+
+    app.controller('SomeController',function($scope){
+        $scope.title = '点击展开';
+        $scope.text = '这里是内部的内容。';
+    });
+
+
+    app.directive('accordion',function(){
+        return{
+            restrict : 'EA',
+            replace : true,
+            transclude : true,
+            template : '<div ng-transclude></div>',
+            controller : function() {
+                var expanders = [];
+                this.gotOpened = function(selectedExpander) {
+                    angular.forEach(expanders, function(expander) {
+                        if (selectedExpander != expander) {
+                            expander.showMe = false;
+                        }
+                    });
+                }
+                this.addExpander = function(expander) {
+                    expanders.push(expander);
+                }
+            }
+        }
+    });
+
+    app.directive('expander1',function(){
+        return{
+            restrict : 'EA',
+            replace : true,
+            transclude : true,
+            require : '^?accordion',
+            scope : {
+                title : '=expanderTitle'
+            },
+            template : '<div>'
+            + '<div class="title" ng-click="toggle()">{{title}}</div>'
+            + '<div class="body" ng-show="showMe" ng-transclude></div>'
+            + '</div>',
+            link : function(scope, element, attrs, accordionController) {
+                scope.showMe = false;
+                accordionController.addExpander(scope);
+                scope.toggle = function toggle() {
+                    scope.showMe = !scope.showMe;
+                    accordionController.gotOpened(scope);
+                }
+            }
+        }
+    });
+
+    app.controller('SomeController1',function($scope){
+        $scope.expanders = [{
+            title : 'Click me to expand',
+            text : 'Hi there folks, I am the content that was hidden but is now shown.'
+        }, {
+            title : 'Click this',
+            text : 'I am even better text than you have seen previously'
+        }, {
+            title : 'Test',
+            text : 'test'
+        }];
+    });
+
+</script>
+</body>
+</html>

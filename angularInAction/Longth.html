@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>长度换算</title>
+    <link rel="stylesheet" href="../css/bootstrap.min.css"/>
+    <script type="text/javascript" src="../js/jquery-2.1.3.min.js"></script>
+    <script type="text/javascript" src="../js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../angular/angular.js"></script>
+</head>
+<body ng-app="invoice1">
+<div class="container-fluid">
+
+    <!-- Tabs Go Here -->
+    <section ng-controller="TabController as tab">
+        <ul class="nav nav-pills">
+            <li ng-class="{ active:tab.isSet(1) }">
+                <a href ng-click="tab.setTab(1)">长度换算</a>
+            </li>
+            <li ng-class="{ active:tab.isSet(2) }">
+                <a href ng-click="tab.setTab(2)">重量换算</a>
+            </li>
+            <li ng-class="{ active:tab.isSet(3) }">
+                <a href ng-click="tab.setTab(3)">面积换算</a>
+            </li>
+            <li ng-class="{ active:tab.isSet(4) }">
+                <a href ng-click="tab.setTab(4)">体积换算</a>
+            </li>
+        </ul>
+        <!-- 长度换算-->
+        <longth-form ng-show="tab.isSet(1)"></longth-form>
+        <!--重量换算-->
+        <weigth-form ng-show="tab.isSet(2)"></weigth-form>
+        <!--面积换算-->
+        <area-form ng-show="tab.isSet(3)"></area-form>
+        <!--体积换算-->
+        <volume-form ng-show="tab.isSet(4)" ></volume-form>
+    </section>
+
+
+<script>
+    var app = angular.module('invoice1',[]);
+    app.controller("TabController",function(){
+        this.tab = 1;
+
+        this.isSet = function(checkTab) {
+            return this.tab === checkTab;
+        };
+
+        this.setTab = function(activeTab) {
+            this.tab = activeTab;
+        };
+    });
+    app.directive('longthForm',function(){
+        return {
+            restrict:'E',
+            templateUrl:'longth-form.html',
+            controller: function(){
+                this.length = 1;
+                this.unit = '公里';
+                this.units = ['公里', '米', '厘米','英里','海里','码','英尺','英寸'];
+                this.rates = {
+                    公里: 1,
+                    米: 1000,
+                    厘米: 100000,
+                    英里:0.612382,
+                    海里:0.539611,
+                    码:1093.63,
+                    英尺:3280.89,
+                    英寸:39370.7
+                };
+
+                this.total = function total(outUnit) {
+                    return this.convertUnit(this.length, this.unit, outUnit);
+                };
+                this.convertUnit = function convertUnit(amount, inUnit, outUnit) {
+                    return amount * this.rates[outUnit] / this.rates[inUnit];
+                };
+            },
+            controllerAs:'invoice1'
+        }
+    });
+    app.directive('weigthForm',function(){
+        return {
+            restrict:'E',
+            templateUrl:'weigth-form.html',
+            controller: function InvoiceController() {
+                this.length = 1;
+                this.unit = '吨';
+                this.units = ['吨', '千克', '克','磅','盎司','克拉'];
+                this.rates = {
+                    吨: 1,
+                    千克: 1000,
+                    克: 1000000,
+                    磅:2204.6226218,
+                    盎司:35273.9619496 ,
+                    克拉:5000000
+                };
+
+                this.total = function total(outUnit) {
+                    return this.convertUnit(this.length, this.unit, outUnit);
+                };
+                this.convertUnit = function convertUnit(amount, inUnit, outUnit) {
+                    return amount * this.rates[outUnit] / this.rates[inUnit];
+                };
+            },
+            controllerAs:'invoice2'
+        }
+    });
+    app.directive('areaForm',function(){
+        return {
+            restrict:'E',
+            templateUrl:'area-form.html',
+            controller: function InvoiceController() {
+                this.length = 1;
+                this.unit = '平方公里';
+                this.units = ['平方公里', '公亩', '平方米','平方英尺','平方英寸','平方英里','平方码','英亩'];
+                this.rates = {
+                    平方公里: 1,
+                    公亩: 10000,
+                    平方米: 1000000,
+                    平方英尺:10763910.41671,
+                    平方英寸:1550003100.006,
+                    平方英里:0.3861022,
+                    平方码:1195990.046301,
+                    英亩:247.1053815
+                };
+
+                this.total = function total(outUnit) {
+                    return this.convertUnit(this.length, this.unit, outUnit);
+                };
+                this.convertUnit = function convertUnit(amount, inUnit, outUnit) {
+                    return amount * this.rates[outUnit] / this.rates[inUnit];
+                };
+            },
+            controllerAs:'invoice3'
+        }
+    });
+    app.directive('volumeForm',function(){
+        return {
+            restrict:'E',
+            templateUrl:'volume-form.html',
+            controller: function InvoiceController() {
+                this.length = 1;
+                this.unit = '立方米';
+                this.units = ['立方米', '立方厘米', '升','立方英尺','立方英寸','立方码','英制加仑'];
+                this.rates = {
+                    立方米: 1,
+                    立方厘米: 1000000,
+                    升: 1000 ,
+                    立方英尺:35.3147248,
+                    立方英寸:61023.8445022,
+                    立方码:1.3079528 ,
+                    英制加仑:219.9691573
+                };
+
+                this.total = function total(outUnit) {
+                    return this.convertUnit(this.length, this.unit, outUnit);
+                };
+                this.convertUnit = function convertUnit(amount, inUnit, outUnit) {
+                    return amount * this.rates[outUnit] / this.rates[inUnit];
+                };
+            },
+            controllerAs:'invoice4'
+        }
+    });
+</script>
+</div>
+
+
+
+</body>
+</html>

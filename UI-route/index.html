@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" href="style.css">
+
+    <!-- JS -->
+    <!-- load angular, nganimate, and ui-router -->
+    <script src="../angular/angular.js"></script>
+    <script src="../js/angular-ui-router.min.js"></script>
+    <script src="../js/angular-animate.min.js"></script>
+    <script src="app.js"></script>
+
+</head>
+
+<!-- apply our angular app -->
+<body ng-app="formApp">
+
+<div class="container">
+
+    <!-- views will be injected here -->
+    <div ui-view></div>
+
+</div>
+
+</body>
+</html>

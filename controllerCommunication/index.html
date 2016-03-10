@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>controller comminucation</title>
+</head>
+<body>
+
+<div ng-app="app" ng-controller="parentCtr">
+    <div ng-controller="childCtr1">name :
+        <input ng-model="name" type="text" ng-change="change(name);"/>
+    </div>
+    <div ng-controller="childCtr2">Ctr1 name:
+        <input ng-model="ctr1Name"/>
+    </div>
+</div>
+
+<script src="../angular/angular.js"></script>
+<script>
+    angular
+            .module('app', [])
+            .controller('parrentCtr', function ($scope) {
+                $scope.on("Ctr1NameChange", function (event,msg) {
+                    console.log("parrent",msg);
+                })
+            })
+            .controller('childCtr1',function($scope){
+
+            })
+            .controller('childCtrl2',function($scope){
+
+            })
+
+</script>
+</body>
+</html>

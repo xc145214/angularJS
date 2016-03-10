@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<!-- 严格语法 ng-strict-di : 使用显式注入-->
+<html ng-app ng-strict-di >
+<head lang="en">
+    <meta charset="utf-8">
+    <!-- CSS -->
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../UI-route/style.css">
+
+    <!-- JS -->
+    <script src="../angular/angular.js"></script>
+    <style>
+        div[ng-controller] {
+            margin-bottom: 1em;
+            -webkit-border-radius: 4px;
+            border-radius: 4px;
+            border: 1px solid;
+            padding: .5em;
+        }
+
+        div[ng-controller^=Good] {
+            border-color: #d6e9c6;
+            background-color: #dff0d8;
+            color: #3c763d;
+        }
+
+        div[ng-controller^=Bad] {
+            border-color: #ebccd1;
+            background-color: #f2dede;
+            color: #a94442;
+            margin-bottom: 0;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div>
+        <label>Name:</label>
+        <input type="text" ng-model="yourName" placeholder="Enter your name">
+        <hr>
+        <h1>hello {{yourName}}</h1>
+    </div>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <!-- CSS -->
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <!-- JS -->
+    <!-- load angular, nganimate, and ui-router -->
+    <script src="../angular/angular.js"></script>
+
+</head>
+<style>
+    div[ng-controller] {
+        margin-bottom: 1em;
+        -webkit-border-radius: 4px;
+        border-radius: 4px;
+        border: 1px solid;
+        padding: .5em;
+    }
+
+    div[ng-controller^=Good] {
+        border-color: #d6e9c6;
+        background-color: #dff0d8;
+        color: #3c763d;
+    }
+
+    div[ng-controller^=Bad] {
+        border-color: #ebccd1;
+        background-color: #f2dede;
+        color: #a94442;
+        margin-bottom: 0;
+    }
+</style>
+
+<!-- apply our angular app -->
+<body>
+
+<div class="container">
+    <!-- 严格语法 ng-strict-di : 使用显式注入-->
+    <div ng-app="Demo" ng-strict-di>
+
+        <h1 class="page-header">ngBind</h1>
+
+        <div ng-controller="ExampleController1">
+            Enter name: <input type="text" ng-model="name"><br>
+            Hello <span ng-bind="name"></span>!
+        </div>
+
+        <h1 class="page-header">ngBindHtml</h1>
+
+        <div ng-controller="ExampleController2">
+            <p ng-bind-html="myHTML"></p>
+        </div>
+
+        <h1 class="page-header">ngBindTemplate</h1>
+        <div ng-controller="ExampleController3">
+            Salutation: <input type="text" ng-model="salutation"><br>
+            Name: <input type="text" ng-model="name"><br>
+            <pre ng-bind-template="{{salutation}} {{name}}!"></pre>
+        </div>
+    </div>
+
+    <script>
+
+        var Demo = angular.module('Demo', []);
+
+        Demo.controller('ExampleController1', ExampleController1);
+
+        function ExampleController1($scope) {
+            $scope.name = 'Whirled';
+        }
+        //注入
+        ExampleController1.$inject = ['$scope'];
+
+        /**
+         * [$sce:unsafe] Attempting to use an unsafe value in a safe context.
+         * add $sce and solve this problem
+         */
+        Demo.controller('ExampleController2', ['$scope', '$sce', function ($scope, $sce) {
+            $scope.myHTML = $sce.trustAsHtml('I am an <code>HTML </code>string with ' +
+            '<a href="#">links!</a> and other <em>stuff</em>');
+            ;
+        }]);
+
+
+        Demo.controller('ExampleController3',['$scope',function($scope){
+            $scope.salutation = 'Hello';
+            $scope.name = 'World';
+        }]);
+
+
+
+    </script>
+</div>
+
+</body>
+</html>

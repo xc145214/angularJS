@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>长度换算</title>
+    <link rel="stylesheet" href="../css/bootstrap.min.css"/>
+    <script type="text/javascript" src="../angular/angular.js"></script>
+</head>
+<body>
+<div class="container-fluid">
+    <div ng-app="invoice1" ng-controller="InvoiceController as invoice">
+        <h3 class="page-header">面积换算表</h3>
+        <table class="table table-bordered ">
+            <caption>面积换算单位</caption>
+            <tbody>
+            <tr>
+                <th>中文</th>
+                <td>平方公里</td>
+                <td>公亩</td>
+                <td>平方米</td>
+                <td>平方英尺</td>
+                <td>平方英寸</td>
+                <td>平方英里</td>
+                <td>平方码</td>
+                <td>英亩</td>
+
+            </tr>
+            <tr>
+                <th>英文</th>
+                <td>sq.km</td>
+                <td>a(are)</td>
+                <td>sq.m</td>
+                <td>sq.ft</td>
+                <td>sq.in</td>
+                <td>sq.mi</td>
+                <td>sq.yd</td>
+                <td>a(acre)</td>
+            </tr>
+            </tbody>
+
+        </table>
+        <form class="form-inline">
+            <div class="form-group">
+                <label >面积：</label>
+                <input type="number" class="form-control" min="0" ng-model="invoice.length" required >
+
+            </div>
+            <div class="form-group">
+                <label >选择单位</label>
+                <select ng-model="invoice.unit" class="form-control">
+                    <option ng-repeat="c in invoice.units">{{c}}</option>
+                </select>
+            </div>
+        </form>
+        <div>
+            <b>结果:</b>
+            <table class="table table-bordered " >
+                <tr ng-repeat="c in invoice.units">
+                    <td>{{ invoice.total(c) | number:4 }}</td>
+                    <td> {{ c }}</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <script>
+        angular.module('invoice1',[])
+                .controller('InvoiceController',InvoiceController);
+        function InvoiceController() {
+            this.length = 1;
+            this.unit = '平方公里';
+            this.units = ['平方公里', '公亩', '平方米','平方英尺','平方英寸','平方英里','平方码','英亩'];
+            this.rates = {
+                平方公里: 1,
+                公亩: 10000,
+                平方米: 1000000,
+                平方英尺:10763910.41671,
+                平方英寸:1550003100.006,
+                平方英里:0.3861022,
+                平方码:1195990.046301,
+                英亩:247.1053815
+            };
+
+            this.total = function total(outUnit) {
+                return this.convertUnit(this.length, this.unit, outUnit);
+            };
+            this.convertUnit = function convertUnit(amount, inUnit, outUnit) {
+                return amount * this.rates[outUnit] / this.rates[inUnit];
+            };
+        }
+    </script>
+
+
+
+</div>
+
+
+<script type="text/javascript" src="../js/bootstrap.min.js"></script>
+<script type="text/javascript" src="../js/jquery-2.1.3.min.js"></script>
+</body>
+</html>

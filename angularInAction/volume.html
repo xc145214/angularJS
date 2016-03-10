@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>容积换算</title>
+    <link rel="stylesheet" href="../css/bootstrap.min.css"/>
+    <script type="text/javascript" src="../angular/angular.js"></script>
+</head>
+<body>
+<div class="container-fluid">
+    <div ng-app="invoice1" ng-controller="InvoiceController as invoice">
+        <h3 class="page-header">容积换算表</h3>
+        <table class="table table-bordered ">
+            <caption>容积换算单位</caption>
+            <tbody>
+            <tr>
+                <th>中文</th>
+                <td>立方米</td>
+                <td>立方厘米</td>
+                <td>升</td>
+                <td>立方英尺</td>
+                <td>立方英寸</td>
+                <td>立方码</td>
+                <td>英制加仑</td>
+            </tr>
+            <tr>
+                <th>英文</th>
+                <td>cu.m</td>
+                <td>cu.cm</td>
+                <td>l</td>
+                <td>cu.ft</td>
+                <td>sq.in</td>
+                <td>sq.yd</td>
+                <td>uk gal</td>
+            </tr>
+            </tbody>
+
+        </table>
+        <form class="form-inline">
+            <div class="form-group">
+                <label >面积：</label>
+                <input type="number" class="form-control" min="0" ng-model="invoice.length" required >
+
+            </div>
+            <div class="form-group">
+                <label >选择单位</label>
+                <select ng-model="invoice.unit" class="form-control">
+                    <option ng-repeat="c in invoice.units">{{c}}</option>
+                </select>
+            </div>
+        </form>
+        <div>
+            <b>结果:</b>
+            <table class="table table-bordered " >
+                <tr ng-repeat="c in invoice.units">
+                    <td>{{ invoice.total(c) | number:4 }}</td>
+                    <td> {{ c }}</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <script>
+        angular.module('invoice1',[])
+                .controller('InvoiceController',InvoiceController);
+        function InvoiceController() {
+            this.length = 1;
+            this.unit = '立方米';
+            this.units = ['立方米', '立方厘米', '升','立方英尺','立方英寸','立方码','英制加仑'];
+            this.rates = {
+                立方米: 1,
+                立方厘米: 1000000,
+                升: 1000 ,
+                立方英尺:35.3147248,
+                立方英寸:61023.8445022,
+                立方码:1.3079528 ,
+                英制加仑:219.9691573
+            };
+
+            this.total = function total(outUnit) {
+                return this.convertUnit(this.length, this.unit, outUnit);
+            };
+            this.convertUnit = function convertUnit(amount, inUnit, outUnit) {
+                return amount * this.rates[outUnit] / this.rates[inUnit];
+            };
+        }
+    </script>
+
+
+
+</div>
+
+
+<script type="text/javascript" src="../js/bootstrap.min.js"></script>
+<script type="text/javascript" src="../js/jquery-2.1.3.min.js"></script>
+</body>
+</html>

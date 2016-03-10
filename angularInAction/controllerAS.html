@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>controller as</title>
+</head>
+<body ng-app="CSApp">
+
+    <h1>controller 1</h1>
+    <div ng-controller="MainCtrl1">
+        {{ title }}
+    </div>
+
+    <h1>controller 2</h1>
+    <div ng-controller="MainCtrl2 ">
+        {{ title }}
+    </div>
+
+    <h1>controller 3</h1>
+    <div ng-controller="MainCtrl2 as main2">
+        {{ main2.title }}
+    </div>
+    <h1>controller 4</h1>
+    <div ng-controller="MainCtrl2 as main2">
+        {{ this.title + title + $scope.title }}
+    </div>
+
+    <h1>Nested Scopes</h1>
+    <h4>原始写法</h4>
+    <div ng-controller="MainCtrl">
+        {{ title }}
+        <div ng-controller="AnotherCtrl">
+            {{ title }}
+            <div ng-controller="YetAnotherCtrl">
+                {{ title }}
+            </div>
+        </div>
+    </div>
+
+
+    <h4>获取父对象</h4>
+    <div ng-controller="MainCtrl">
+        {{ title }}
+        <div ng-controller="AnotherCtrl">
+            Scope title: {{ title }}
+            Parent title: {{ $parent.title }}
+            <div ng-controller="YetAnotherCtrl">
+                {{ title }}
+                Parent title: {{ $parent.title }}
+                Parent parent title: {{ $parent.$parent.title }}
+            </div>
+        </div>
+    </div>
+
+    <h4>更好的方式</h4>
+    <div ng-controller="MainCtrl as main">
+        {{ main.title }}
+        <div ng-controller="AnotherCtrl as another">
+            Scope title: {{ another.title }}
+            Parent title: {{ main.title }}
+            <div ng-controller="YetAnotherCtrl as yet">
+                Scope title: {{ yet.title }}
+                Parent title: {{ another.title }}
+                Parent parent title: {{ main.title }}
+            </div>
+        </div>
+    </div>
+
+
+<script src="../angular/angular.js"></script>
+<script src="csApp.js"></script>
+<!-- Bootstrap core JavaScript
+   ================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="../js/jquery-2.1.3.min.js"></script>
+</body>
+</html>

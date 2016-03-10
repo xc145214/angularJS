@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" href="style.css">
+
+    <!-- JS -->
+    <!-- load angular, nganimate, and ui-router -->
+    <script src="../angular/angular.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.1/angular-route.js"></script>
+    <script src="../js/angular-animate.min.js"></script>
+    <script src="app.js"></script>
+
+    <script type="text/javascript">
+        angular.element(document.getElementsByTagName('head')).append(angular.element('<base href="' + window.location.pathname + '" />'));
+    </script>
+
+</head>
+
+<!-- apply our angular app -->
+<body ng-app="app">
+
+<div class="container">
+
+    <!-- views will be injected here -->
+    <div ng-controller="MainController">
+        <h3 class="page-header">Choose:</h3>
+
+        <div class="row">
+            <div class="col-md-2">
+                <a href="Book/Moby">Moby</a>
+            </div>
+            <div class="col-md-2">
+                <a href="Book/Moby/ch/1">Moby: Ch1</a>
+            </div>
+            <div class="col-md-2">
+                <a href="Book/Gatsby">Gatsby</a>
+            </div>
+            <div class="col-md-2">
+                <a href="Book/Gatsby/ch/4?key=value">Gatsby: Ch4</a>
+            </div>
+            <div class="col-md-2">
+                <a href="Book/Scarlet">Scarlet Letter</a>
+            </div>
+        </div>
+
+
+        <div ng-view></div>
+
+        <hr/>
+
+        <pre>$location.path() = {{ $location.path()}}</pre>
+        <pre>$route.current.templateUrl = {{$route.current.templateUrl}}</pre>
+        <pre>$route.current.params = {{$route.current.params}}</pre>
+        <pre>$route.current.scope.name = {{$route.current.scope.name}}</pre>
+        <pre>$routeParams = {{$routeParams}}</pre>
+    </div>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>directive</title>
+    <script src="../angular/angular.js"></script>
+</head>
+<body ng-app="app">
+
+<h1>Directive</h1>
+
+
+<helloWorld></helloWorld>
+
+<div hello-world></div>
+
+<div data-hello-world></div>
+
+<div some-directive></div>
+
+<compose-email></compose-email>
+<hr/>
+<div ng-controller="MainCtrl">
+    <input type="text" ng-model="color" placeholder="Enter a color">
+    <hello-world color-attr="{{color}}"/>
+</div>
+
+<hr/>
+<outer-directive>
+    <inner-directive></inner-directive>
+</outer-directive>
+<script>
+    function someDirective() {
+        return {
+            transclude: true,
+            restrict: 'EA',
+            replace: true,
+            scope: true,
+            controllerAs: 'something',
+            controller: function () {
+
+            },
+            link: function ($scope, $element, $attrs) {
+
+            },
+            template: [
+                '<div class="some-directive">',
+                'My directive!',
+                '</div>'
+            ].join('')
+        };
+    }
+
+    function composeEmail() {
+        return {
+            transclude: true,
+            restrict: 'EA',
+            replace: true,
+            scope: true,
+            controllerAs: 'compose',
+            controller: function () {
+
+            },
+            link: function ($scope, $element, $attrs) {
+
+            },
+            template: [
+                '<div class="compose-email">',
+                '<input type="text" placeholder="To..." ng-model="compose.to">',
+                '<input type="text" placeholder="Subject..." ng-model="compose.subject">',
+                '<textarea placeholder="Message..." ng-model="compose.message"></textarea>',
+                '</div>'
+            ].join('')
+        };
+    }
+    function HelloWorld() {
+
+        return {
+            transclude: true,
+            scope: {color: '@colorAttr'},
+            restrict: 'AE',
+            replace: 'true',
+            template: '<p style="background-color:{{color}}">Hello World',
+            link: function (scope, elem, attrs) {
+                elem.bind('click', function () {
+                    elem.css('background-color', 'blue');
+                    scope.$apply(function () {
+                        scope.color = "white";
+                    });
+                });
+                elem.bind('mouseover', function () {
+                    elem.css('cursor', 'pointer');
+                });
+            }
+        }
+
+    }
+
+    function innerDirective() {
+        return {
+            scope: {},
+            restrict: 'AE',
+            require: '^outerDirective',
+            link: function (scope, elem, attrs, controllerInstance) {
+                //the fourth argument is the controller instance you require
+                scope.message = "Hi, Parent directive";
+                controllerInstance.addChild(scope);
+            }
+        };
+    }
+    angular
+            .module('app', [])
+            .directive('someDirective', someDirective)
+            .directive('composeEmail', composeEmail)
+            .directive('helloWorld', HelloWorld)
+            .directive('innerDirective', innerDirective)
+            .controller('MainCtrl', function ($scope) {
+
+            });
+
+
+</script>
+
+<script src="../js/jquery-2.1.3.min.js"></script>
+</body>
+</html>

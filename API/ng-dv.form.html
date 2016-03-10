@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <!-- CSS -->
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <!-- JS -->
+    <!-- load angular, nganimate, and ui-router -->
+    <script src="../angular/angular.js"></script>
+
+</head>
+<style>
+    .my-form {
+        -webkit-transition: all linear 0.5s;
+        transition: all linear 0.5s;
+        background: transparent;
+    }
+
+    .my-form.ng-invalid {
+        background: red;
+    }
+</style>
+<!-- apply our angular app -->
+<body ng-app="demo">
+
+<div class="container">
+
+    <!-- form-->
+    <h1 class="page-header">Form</h1>
+
+    <form name="myForm" ng-controller="FormController" class="my-form">
+        userType: <input name="input" ng-model="userType" required>
+        <span class="error" ng-show="myForm.input.$error.required">Required!</span><br>
+        <tt>userType = {{userType}}</tt><br>
+        <tt>myForm.input.$valid = {{myForm.input.$valid}}</tt><br>
+        <tt>myForm.input.$error = {{myForm.input.$error}}</tt><br>
+        <tt>myForm.$valid = {{myForm.$valid}}</tt><br>
+        <tt>myForm.$error.required = {{!!myForm.$error.required}}</tt><br>
+    </form>
+
+    <!-- input-->
+    <h1 class="page-header">input</h1>
+
+    <div ng-controller="InputController">
+        <form name="myForm">
+            User name: <input type="text" name="userName" ng-model="user.name" required>
+    <span class="error" ng-show="myForm.userName.$error.required">
+      Required!</span><br>
+            Last name: <input type="text" name="lastName" ng-model="user.last"
+                              ng-minlength="3" ng-maxlength="10">
+    <span class="error" ng-show="myForm.lastName.$error.minlength">
+      Too short!</span>
+    <span class="error" ng-show="myForm.lastName.$error.maxlength">
+      Too long!</span><br>
+        </form>
+        <hr>
+        <tt>user = {{user}}</tt><br/>
+        <tt>myForm.userName.$valid = {{myForm.userName.$valid}}</tt><br>
+        <tt>myForm.userName.$error = {{myForm.userName.$error}}</tt><br>
+        <tt>myForm.lastName.$valid = {{myForm.lastName.$valid}}</tt><br>
+        <tt>myForm.lastName.$error = {{myForm.lastName.$error}}</tt><br>
+        <tt>myForm.$valid = {{myForm.$valid}}</tt><br>
+        <tt>myForm.$error.required = {{!!myForm.$error.required}}</tt><br>
+        <tt>myForm.$error.minlength = {{!!myForm.$error.minlength}}</tt><br>
+        <tt>myForm.$error.maxlength = {{!!myForm.$error.maxlength}}</tt><br>
+    </div>
+
+
+    <!-- checkbox-->
+    <h1 class="page-header">checkbox</h1>
+
+    <form name="myForm" ng-controller="CheckBoxController">
+        Value1: <input type="checkbox" ng-model="value1"> <br/>
+        Value2: <input type="checkbox" ng-model="value2"
+                       ng-true-value="'YES'" ng-false-value="'NO'"> <br/>
+        <tt>value1 = {{value1}}</tt><br/>
+        <tt>value2 = {{value2}}</tt><br/>
+    </form>
+
+
+    <!-- Date-->
+    <h1 class="page-header">Date</h1>
+
+    <form name="myForm" ng-controller="DateController as dateCtrl">
+        Pick a date in 2013:
+        <input type="date" id="exampleInput" name="input" ng-model="value"
+               placeholder="yyyy-MM-dd" min="2013-01-01" max="2013-12-31" required/>
+   <span class="error" ng-show="myForm.input.$error.required">
+       Required!</span>
+   <span class="error" ng-show="myForm.input.$error.date">
+       Not a valid date!</span>
+        <tt>value = {{value | date: "yyyy-MM-dd"}}</tt><br/>
+        <tt>myForm.input.$valid = {{myForm.input.$valid}}</tt><br/>
+        <tt>myForm.input.$error = {{myForm.input.$error}}</tt><br/>
+        <tt>myForm.$valid = {{myForm.$valid}}</tt><br/>
+        <tt>myForm.$error.required = {{!!myForm.$error.required}}</tt><br/>
+    </form>
+
+    <!-- DateTime-->
+    <h1 class="page-header">DateTime</h1>
+
+    <form name="myForm" ng-controller="DateTimeController as dateCtrl">
+        Pick a date between in 2013:
+        <input type="datetime-local" id="exampleInput" name="input" ng-model="value"
+               placeholder="yyyy-MM-ddTHH:mm:ss" min="2001-01-01T00:00:00" max="2013-12-31T00:00:00" required/>
+  <span class="error" ng-show="myForm.input.$error.required">
+      Required!</span>
+  <span class="error" ng-show="myForm.input.$error.datetimelocal">
+      Not a valid date!</span>
+        <tt>value = {{value | date: "yyyy-MM-ddTHH:mm:ss"}}</tt><br/>
+        <tt>myForm.input.$valid = {{myForm.input.$valid}}</tt><br/>
+        <tt>myForm.input.$error = {{myForm.input.$error}}</tt><br/>
+        <tt>myForm.$valid = {{myForm.$valid}}</tt><br/>
+        <tt>myForm.$error.required = {{!!myForm.$error.required}}</tt><br/>
+    </form>
+
+    <!-- Email-->
+    <h1 class="page-header">Email</h1>
+
+    <form name="myForm" ng-controller="EmailController as email">
+        Email: <input type="email" name="input" ng-model="text" required>
+  <span class="error" ng-show="myForm.input.$error.required">
+    Required!</span>
+  <span class="error" ng-show="myForm.input.$error.email">
+    Not valid email!</span>
+        <tt>text = {{text}}</tt><br/>
+        <tt>myForm.input.$valid = {{myForm.input.$valid}}</tt><br/>
+        <tt>myForm.input.$error = {{myForm.input.$error}}</tt><br/>
+        <tt>myForm.$valid = {{myForm.$valid}}</tt><br/>
+        <tt>myForm.$error.required = {{!!myForm.$error.required}}</tt><br/>
+        <tt>myForm.$error.email = {{!!myForm.$error.email}}</tt><br/>
+    </form>
+
+    <!-- Month-->
+    <h1 class="page-header">Month</h1>
+
+    <form name="myForm" ng-controller="MonthController as dateCtrl">
+        Pick a month int 2013:
+        <input id="exampleInput" type="month" name="input" ng-model="value"
+               placeholder="yyyy-MM" min="2013-01" max="2013-12" required/>
+  <span class="error" ng-show="myForm.input.$error.required">
+     Required!</span>
+  <span class="error" ng-show="myForm.input.$error.month">
+     Not a valid month!</span>
+        <tt>value = {{value | date: "yyyy-MM"}}</tt><br/>
+        <tt>myForm.input.$valid = {{myForm.input.$valid}}</tt><br/>
+        <tt>myForm.input.$error = {{myForm.input.$error}}</tt><br/>
+        <tt>myForm.$valid = {{myForm.$valid}}</tt><br/>
+        <tt>myForm.$error.required = {{!!myForm.$error.required}}</tt><br/>
+    </form>
+
+    <!-- Number-->
+    <h1 class="page-header">Number</h1>
+
+    <form name="myForm" ng-controller="NumberController">
+        Number: <input type="number" name="input" ng-model="value"
+                       min="0" max="99" required>
+  <span class="error" ng-show="myForm.input.$error.required">
+    Required!</span>
+  <span class="error" ng-show="myForm.input.$error.number">
+    Not valid number!</span>
+        <tt>value = {{value}}</tt><br/>
+        <tt>myForm.input.$valid = {{myForm.input.$valid}}</tt><br/>
+        <tt>myForm.input.$error = {{myForm.input.$error}}</tt><br/>
+        <tt>myForm.$valid = {{myForm.$valid}}</tt><br/>
+        <tt>myForm.$error.required = {{!!myForm.$error.required}}</tt><br/>
+    </form>
+
+
+    <!-- Radio-->
+    <h1 class="page-header">Radio</h1>
+
+    <form name="myForm" ng-controller="RadioController">
+        <input type="radio" ng-model="color" value="red"> Red <br/>
+        <input type="radio" ng-model="color" ng-value="specialValue"> Green <br/>
+        <input type="radio" ng-model="color" value="blue"> Blue <br/>
+        <tt>color = {{color | json}}</tt><br/>
+    </form>
+    Note that `ng-value="specialValue"` sets radio item's value to be the value of `$scope.specialValue`.
+
+    <!-- Text-->
+    <h1 class="page-header">Text</h1>
+
+    <form name="myForm" ng-controller="TextController">
+        Single word: <input type="text" name="input" ng-model="text"
+                            ng-pattern="word" required ng-trim="false">
+  <span class="error" ng-show="myForm.input.$error.required">
+    Required!</span>
+  <span class="error" ng-show="myForm.input.$error.pattern">
+    Single word only!</span>
+
+        <tt>text = {{text}}</tt><br/>
+        <tt>myForm.input.$valid = {{myForm.input.$valid}}</tt><br/>
+        <tt>myForm.input.$error = {{myForm.input.$error}}</tt><br/>
+        <tt>myForm.$valid = {{myForm.$valid}}</tt><br/>
+        <tt>myForm.$error.required = {{!!myForm.$error.required}}</tt><br/>
+    </form>
+
+    <!-- Time-->
+    <h1 class="page-header">Time</h1>
+
+    <form name="myForm" ng-controller="TimeController as dateCtrl">
+        Pick a between 8am and 5pm:
+        <input type="time" id="exampleInput" name="input" ng-model="value"
+               placeholder="HH:mm:ss" min="08:00:00" max="17:00:00" required/>
+   <span class="error" ng-show="myForm.input.$error.required">
+       Required!</span>
+   <span class="error" ng-show="myForm.input.$error.time">
+       Not a valid date!</span>
+        <tt>value = {{value | date: "HH:mm:ss"}}</tt><br/>
+        <tt>myForm.input.$valid = {{myForm.input.$valid}}</tt><br/>
+        <tt>myForm.input.$error = {{myForm.input.$error}}</tt><br/>
+        <tt>myForm.$valid = {{myForm.$valid}}</tt><br/>
+        <tt>myForm.$error.required = {{!!myForm.$error.required}}</tt><br/>
+    </form>
+
+    <!-- URL-->
+    <h1 class="page-header">URL</h1>
+
+    <form name="myForm" ng-controller="URLController">
+        URL: <input type="url" name="input" ng-model="text" required>
+  <span class="error" ng-show="myForm.input.$error.required">
+    Required!</span>
+  <span class="error" ng-show="myForm.input.$error.url">
+    Not valid url!</span>
+        <tt>text = {{text}}</tt><br/>
+        <tt>myForm.input.$valid = {{myForm.input.$valid}}</tt><br/>
+        <tt>myForm.input.$error = {{myForm.input.$error}}</tt><br/>
+        <tt>myForm.$valid = {{myForm.$valid}}</tt><br/>
+        <tt>myForm.$error.required = {{!!myForm.$error.required}}</tt><br/>
+        <tt>myForm.$error.url = {{!!myForm.$error.url}}</tt><br/>
+    </form>
+
+    <!-- Week-->
+    <h1 class="page-header">Week</h1>
+
+    <form name="myForm" ng-controller="WeekController as dateCtrl">
+        Pick a date between in 2013:
+        <input id="exampleInput" type="week" name="input" ng-model="value"
+               placeholder="YYYY-W##" min="2012-W32" max="2013-W52" required/>
+  <span class="error" ng-show="myForm.input.$error.required">
+      Required!</span>
+  <span class="error" ng-show="myForm.input.$error.week">
+      Not a valid date!</span>
+        <tt>value = {{value | date: "yyyy-Www"}}</tt><br/>
+        <tt>myForm.input.$valid = {{myForm.input.$valid}}</tt><br/>
+        <tt>myForm.input.$error = {{myForm.input.$error}}</tt><br/>
+        <tt>myForm.$valid = {{myForm.$valid}}</tt><br/>
+        <tt>myForm.$error.required = {{!!myForm.$error.required}}</tt><br/>
+    </form>
+    <script>
+        var demo = angular.module('demo', []);
+        //form
+        demo.controller('FormController', ['$scope', function ($scope) {
+            $scope.userType = 'guest';
+        }]);
+
+        //input
+        demo.controller('InputController', ['$scope', function ($scope) {
+            $scope.user = {name: 'guest', last: 'visitor'};
+        }]);
+
+        //checkbox
+        demo.controller('CheckBoxController', function ($scope) {
+            $scope.value1 = true;
+            $scope.value2 = 'YES';
+        });
+
+        //date
+        demo.controller('DateController', function ($scope) {
+            $scope.value = new Date(2013, 9, 22);
+        });
+
+        //dateTime
+        demo.controller('DateTimeController', function ($scope) {
+            $scope.value = new Date(2010, 11, 28, 14, 57);
+        })
+
+
+        //email
+        demo.controller('EmailController', function ($scope) {
+            $scope.text = 'me@example.com';
+        })
+
+        //month
+        demo.controller('MonthController', function ($scope) {
+            $scope.value = new Date(2013, 10)
+        })
+
+        //number
+        demo.controller('NumberController', function ($scope) {
+            $scope.value = 21;
+        })
+
+
+        //radio
+        demo.controller('RadioController', function ($scope) {
+            $scope.color = 'blue';
+            $scope.specialValue = {
+                "id": "12345",
+                "value": "green"
+            };
+        })
+
+        //Text
+        demo.controller('TextController', function ($scope) {
+            $scope.text = 'guest';
+            $scope.word = /^\s*\w*\s*$/;
+        })
+
+
+        //time
+        demo.controller('TimeController', function ($scope) {
+            $scope.value = new Date(1970, 0, 1, 14, 57, 0);
+        })
+        //URL
+        demo.controller('URLController', function ($scope) {
+            $scope.text = 'http://google.com';
+        })
+
+
+        //week
+        demo.controller('WeekController', function ($scope) {
+            $scope.value = new Date(2013, 01, 03)
+        })
+    </script>
+
+</div>
+
+</body>
+</html>

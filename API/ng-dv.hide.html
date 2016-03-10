@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <!-- CSS -->
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <!-- JS -->
+    <!-- load angular, nganimate, and ui-router -->
+    <script src="../angular/angular.js"></script>
+
+</head>
+<style>
+    div[ng-controller] {
+        margin-bottom: 1em;
+        -webkit-border-radius: 4px;
+        border-radius: 4px;
+        border: 1px solid;
+        padding: .5em;
+    }
+
+    div[ng-controller^=Good] {
+        border-color: #d6e9c6;
+        background-color: #dff0d8;
+        color: #3c763d;
+    }
+
+    div[ng-controller^=Bad] {
+        border-color: #ebccd1;
+        background-color: #f2dede;
+        color: #a94442;
+        margin-bottom: 0;
+    }
+
+
+</style>
+
+<!-- apply our angular app -->
+<body>
+
+<div class="container">
+    <!-- 严格语法 ng-strict-di : 使用显式注入-->
+    <div ng-app="Demo" ng-strict-di>
+
+        <!--ngHide-->
+        <h1 class="page-header">ngHide</h1>
+        Click me: <input type="checkbox" ng-model="checked"><br/>
+
+        <div>
+            Show:
+            <div class="check-element animate-hide" ng-show="checked">
+                <span class="glyphicon glyphicon-thumbs-up"></span> I show up when your checkbox is checked.
+            </div>
+        </div>
+        <div>
+            Hide:
+            <div class="check-element animate-hide" ng-hide="checked">
+                <span class="glyphicon glyphicon-thumbs-down"></span> I hide when your checkbox is checked.
+            </div>
+        </div>
+
+        <!--ngHref-->
+        <h1 class="page-header">ngHref</h1>
+
+        <input ng-model="value"/><br/>
+        <a id="link-1" href ng-click="value = 1">link 1</a> (link, don't reload)<br/>
+        <a id="link-2" href="" ng-click="value = 2">link 2</a> (link, don't reload)<br/>
+        <a id="link-3" ng-href="/{{'123'}}">link 3</a> (link, reload!)<br/>
+        <a id="link-4" href="" name="xx" ng-click="value = 4">anchor</a> (link, don't reload)<br/>
+        <a id="link-5" name="xxx" ng-click="value = 5">anchor</a> (no link)<br/>
+        <a id="link-6" ng-href="{{value}}">link</a> (link, change location)
+
+
+        <!--ngIf-->
+        <h1 class="page-header">ngIf</h1>
+
+        Click me: <input type="checkbox" ng-model="checked" ng-init="checked=true"/><br/>
+        Show when checked:
+        <span ng-if="checked" class="animate-if">
+          This is removed when the checkbox is unchecked.
+        </span>
+    </div>
+
+    <script>
+
+        var Demo = angular.module('Demo', []);
+
+
+    </script>
+</div>
+
+</body>
+</html>

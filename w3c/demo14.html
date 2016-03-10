@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="../css/bootstrap.min.css"/>
+</head>
+<body ng-app="Demo">
+
+<div class="container" ng-controller="FatherCtrl">
+
+    {{father}}
+
+    <button class="btn" ng-click="log()">log</button>
+    <div ng-controller="ChildCtrl">
+        {{father}}
+
+        {{child}}
+
+        <button class="btn" ng-click="log()">log</button>
+    </div>
+</div>
+
+
+<script src="../angular/angular.js"></script>
+<script>
+    angular.module("Demo", [])
+            .controller("FatherCtrl", function ($scope) {
+                $scope.father = "this is father!";
+
+                $scope.log = function () {
+                    console.log($scope.father);
+                };
+            })
+            .controller("ChildCtrl", function ($scope) {
+                $scope.child = "this is child!";
+
+//                $scope.log = $scope.$parent.log;
+            })
+</script>
+</body>
+</html>

@@ -1,0 +1,79 @@
+<!doctype html>
+<html ng-app="myApp">
+<head>
+    <title>ui-router</title>
+    <link href="../../css/bootstrap.min.css" rel="stylesheet">
+
+    <script src="../../angular/angular.js"></script>
+    <!-- Include the ui-router script -->
+    <script src="../../js/angular-ui-router.min.js"></script>
+    <script src="../../js/angular-animate.min.js"></script>
+
+
+</head>
+<body>
+<div class="container">
+    <p><i>Best viewed in pop-out mode to see location changes. Click blue button on the right.</i></p>
+
+    <div class="nav bar">
+        <div class="nav">
+            <a class="brand" href="#">Abstract State Example</a>
+            <ul class="nav">
+                <li><a href="#/contacts/list">Go Back to List</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="span12">
+            <div class="well" ui-view></div>
+        </div>
+    </div>
+
+
+</div>
+<!-- app script-->
+<script>
+    var myApp = angular.module('myApp', ['ui.router']);
+    myApp.config(function ($stateProvider, $urlRouterProvider) {
+
+        $urlRouterProvider.when('', "/contacts/list");
+        $urlRouterProvider.when('/', "/contacts/list");
+
+        // For any unmatched url, send to /route1
+        $urlRouterProvider.otherwise("/contacts/list");
+
+        $stateProvider.state('contacts', {
+            abstract: true,
+            url: '/contacts',
+            templateUrl: 'contacts.html',
+            controller: function ($scope) {
+                $scope.contacts = [
+                    {id: 0, name: "Alice"},
+                    {id: 1, name: "Bob"}];
+            },
+            onEnter: function () {
+                console.log('enter contacts')
+            }
+        }).state('contacts.list', {
+            url: '/list',
+            // loaded into ui-view of parent's template
+            templateUrl: 'contacts.list.html',
+            onEnter: function () {
+                console.log("enter contacts.list");
+            }
+        }).state('contacts.detail', {
+            url: '/:id',
+            // loaded into ui-view of parent's template
+            templateUrl: 'contacts.detail.html',
+            controller: function ($scope, $stateParams) {
+                $scope.person = $scope.contacts[$stateParams.id];
+            },
+            onEnter: function () {
+                console.log("enter contacts.detail");
+            }
+        })
+    })
+</script>
+</body>
+</html>

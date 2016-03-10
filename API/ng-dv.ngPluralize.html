@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <!-- CSS -->
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <!-- JS -->
+    <!-- load angular, nganimate, and ui-router -->
+    <script src="../angular/angular.js"></script>
+
+</head>
+<style>
+    div[ng-controller] {
+        margin-bottom: 1em;
+        -webkit-border-radius: 4px;
+        border-radius: 4px;
+        border: 1px solid;
+        padding: .5em;
+    }
+
+    div[ng-controller^=Good] {
+        border-color: #d6e9c6;
+        background-color: #dff0d8;
+        color: #3c763d;
+    }
+
+    div[ng-controller^=Bad] {
+        border-color: #ebccd1;
+        background-color: #f2dede;
+        color: #a94442;
+        margin-bottom: 0;
+    }
+    .slide-animate-container {
+        position:relative;
+        background:white;
+        border:1px solid black;
+        height:40px;
+        overflow:hidden;
+    }
+
+    .slide-animate {
+        padding:10px;
+    }
+
+    .slide-animate.ng-enter, .slide-animate.ng-leave {
+        -webkit-transition:all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.5s;
+        transition:all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.5s;
+
+        position:absolute;
+        top:0;
+        left:0;
+        right:0;
+        bottom:0;
+        display:block;
+        padding:10px;
+    }
+
+    .slide-animate.ng-enter {
+        top:-50px;
+    }
+    .slide-animate.ng-enter.ng-enter-active {
+        top:0;
+    }
+
+    .slide-animate.ng-leave {
+        top:0;
+    }
+    .slide-animate.ng-leave.ng-leave-active {
+        top:50px;
+    }
+
+</style>
+
+<!-- apply our angular app -->
+<body>
+
+<div class="container">
+    <!-- 严格语法 ng-strict-di : 使用显式注入-->
+    <div ng-app="Demo" ng-strict-di>
+
+        <!--ngPlralize-->
+        <h1 class="page-header">ngPlralize</h1>
+
+        <div ng-controller="ExampleController">
+            Person 1:<input type="text" ng-model="person1" value="Igor" /><br/>
+            Person 2:<input type="text" ng-model="person2" value="Misko" /><br/>
+            Number of People:<input type="text" ng-model="personCount" value="1" /><br/>
+
+            <!--- Example with simple pluralization rules for en locale --->
+            Without Offset:
+            <ng-pluralize count="personCount"
+                          when="{'0': 'Nobody is viewing.',
+                       'one': '1 person is viewing.',
+                       'other': '{} people are viewing.'}">
+            </ng-pluralize><br>
+
+            <!--- Example with offset --->
+            With Offset(2):
+            <ng-pluralize count="personCount" offset=2
+                          when="{'0': 'Nobody is viewing.',
+                       '1': '{{person1}} is viewing.',
+                       '2': '{{person1}} and {{person2}} are viewing.',
+                       'one': '{{person1}}, {{person2}} and one other person are viewing.',
+                       'other': '{{person1}}, {{person2}} and {} other people are viewing.'}">
+            </ng-pluralize>
+        </div>
+
+        <!--ngReadonly-->
+        <h1 class="page-header">ngReadonly</h1>
+        Check me to make text readonly: <input type="checkbox" ng-model="checked"><br/>
+        <input type="text" ng-readonly="checked" value="I'm Angular"/>
+
+        <!--ngSubmit-->
+        <h1 class="page-header">ngSubmit</h1>
+        <form ng-submit="submit()" ng-controller="SubmitController">
+            Enter text and hit enter:
+            <input type="text" ng-model="text" name="text" />
+            <input type="submit" id="submit" value="Submit" />
+            <pre>list={{list}}</pre>
+        </form>
+
+
+        <!--ngSwitch-->
+        <h1 class="page-header">ngSwitch</h1>
+        <div ng-controller="SwitchController">
+            <select ng-model="selection" ng-options="item for item in items">
+            </select>
+            <tt>selection={{selection}}</tt>
+            <hr/>
+            <div class="animate-switch-container"
+                 ng-switch on="selection">
+                <div class="animate-switch" ng-switch-when="settings">Settings Div</div>
+                <div class="animate-switch" ng-switch-when="home">Home Span</div>
+                <div class="animate-switch" ng-switch-default>default</div>
+            </div>
+        </div>
+
+
+        <!--ngVaule-->
+        <h1 class="page-header">ngVaule</h1>
+        <form ng-controller="ValueController">
+            <h2>Which is your favorite?</h2>
+            <label ng-repeat="name in names" for="{{name}}">
+                {{name}}
+                <input type="radio"
+                       ng-model="my.favorite"
+                       ng-value="name"
+                       id="{{name}}"
+                       name="favorite">
+            </label>
+            <div>You chose {{my.favorite}}</div>
+        </form>
+
+        <!--Script-->
+        <h1 class="page-header">Script</h1>
+        <script type="text/ng-template" id="/tpl.html">
+            Content of the template.
+        </script>
+
+        <a ng-click="currentTpl='/tpl.html'" id="tpl-link">Load inlined template</a>
+        <div id="tpl-content" ng-include src="currentTpl"></div>
+
+    </div>
+
+    <script>
+
+        var Demo = angular.module('Demo', []);
+        Demo.controller('ExampleController', ['$scope', function($scope) {
+            $scope.person1 = 'Igor';
+            $scope.person2 = 'Misko';
+            $scope.personCount = 1;
+        }]).controller('SubmitController',['$scope',function($scope){
+            $scope.text = 'hello';
+            $scope.list = [];
+            $scope.submit = function(){
+                if ($scope.text) {
+                    $scope.list.push(this.text);
+                    $scope.text = '';
+                }
+            };
+        }]).controller('SwitchController',['$scope',function($scope){
+            $scope.items = ['settings', 'home', 'other'];
+            $scope.selection = $scope.items[0];
+        }]).controller('ValueController',['$scope',function($scope){
+            $scope.names = ['pizza', 'unicorns', 'robots'];
+            $scope.my = { favorite: 'unicorns' };
+        }]);
+
+
+
+
+    </script>
+</div>
+
+</body>
+</html>

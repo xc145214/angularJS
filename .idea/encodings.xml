@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding">
+    <file url="file://$PROJECT_DIR$/angular/angular.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/codeSchool/angular.min.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/codeSchool/bootstrap.min.css" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/codeSchool/index.html" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/css/bootstrap-theme.css" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/css/bootstrap-theme.css.map" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/css/bootstrap-theme.min.css" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/css/bootstrap.css" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/css/bootstrap.css.map" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/css/bootstrap.min.css" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/fonts" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/images/favicon.ico" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/js/bootstrap.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/js/bootstrap.min.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/js/jquery-2.1.3.min.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/js/npm.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/modal/modal.html" charset="GBK" />
+    <file url="PROJECT" charset="UTF-8" />
+  </component>
+</project>
